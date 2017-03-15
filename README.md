@@ -1,4 +1,2 @@
 # demos
-## My code demo
-
-* [选项卡](https://github.com/haodaking/demos/tab)
+* [选项卡](https://haodaking.github.io/demos/tab/)

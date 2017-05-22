@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>FileContentToExcel</title>
+<link rel="stylesheet" href="css/bulma.css">
+</head>
+<body>
+<div class="container">
+    <p class="title is-2">将多个文件的内容转换到Excel</p>
+    <div class="box">
+        <label for="uploadFile"></label>
+        <input type="file" id="uploadFile" multiple>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">预览</p>
+        </header>
+        <div class="card-content">
+            <table class="table" id="table">
+                <colgroup>
+                    <col width="20%"></col>
+                    <col></col>
+                    <col width="10%"></col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td>文件名</td>
+                        <td>内容</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody class="tbody"></tbody>
+            </table>
+        </div>
+        <footer class="card-footer">
+            <p class="card-footer-item">
+                <span><a href="javascript:;" class="download">Download Excel</a></span>
+            </p>
+        </footer>
+    </div>
+    <div class="card" style="margin-top:20px;">
+        <header class="card-header">
+            <p class="card-header-title">相关链接</p>
+        </header>
+        <div class="card-content">
+            <ul>
+                <li><a href="https://github.com/SheetJS/js-xlsx" target="_blank">https://github.com/SheetJS/js-xlsx</a></li>
+                <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader" target="_blank">https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader</a></li>
+                <li><a href="http://sheetjs.com/demos/table.html" target="_blank">http://sheetjs.com/demos/table.html</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/xlsx.full.min.js"></script>
+<script src="js/FileSaver.js"></script>
+<script src="js/Blob.js"></script>
+<script>
+    var uploadFile = $('#uploadFile');
+
+    /*上传文件，可选择多个文件上传*/
+    uploadFile.on('change', function (e) {
+        readFiles(this.files, function (e, file) {
+            var data = {
+                name: file.name,
+                content: e.target.result
+            };
+
+            /*渲染table*/
+            var $tr = '<tr><td><input type="text" class="input" value="' + data.name + '"/></td><td><textarea class="textarea">' + data.content + '</textarea></td><td><p><a href="javascript:;" class="remove">删除</a></td></p></tr>';
+            $('.tbody').append($tr);
+        });
+    });
+
+    /*读取文件*/
+    function readFiles(files, callback) {
+        files = files || [];
+        $.each(files, function (i, file) {
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function (e) {
+                callback && callback(e, file)
+            };
+        });
+    }
+
+    /*移除行*/
+    $('.table').on('click', '.remove', function () {
+        $(this).parents('tr').remove();
+    });
+
+    /*下载*/
+    $('.download').on('click', function () {
+        var trList = [];
+        $.each($('.table tbody tr'), function (i, tr) {
+            trList.push({
+                "文件名": $(tr).find('.input').val(),
+                "内容": $(tr).find('.textarea').val()
+            });
+        });
+        var ws = XLSX.utils.json_to_sheet(trList);
+
+        var workbook = {
+            SheetNames: ['test'],
+            Sheets: {
+                "test": ws
+            }
+        }
+        var wopts = { bookType: 'xlsx', bookSST: false, type: 'binary' };
+
+        var wbout = XLSX.write(workbook, wopts);
+
+        function s2ab(s) {
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+
+        /* the saveAs call downloads a file on the local machine */
+        saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), "all.xlsx");
+    })
+
+</script>
+</body>
+</html>

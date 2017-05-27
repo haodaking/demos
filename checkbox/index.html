@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>全选/反选</title>
+<style>
+*{margin:0;padding:0;}
+html, body{height:100%;}
+html{background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);}
+body{max-width:600px;background-color:#fff;margin:0 auto;}
+.example{padding: 20px;}
+.example .title{margin: 20px 0;padding-left: 10px;font-size: 20px;line-height: 30px;border-left: 10px solid #7c72c1;}
+.example .content dd{margin-top:10px;}
+.example .content dd label{display:inline-block;margin-right:10px;margin-bottom:5px;}
+.example .content .selected{margin-top:20px;padding:10px;background-color:#292930;color:#fff;line-height:30px;}
+.example .content .selected p{font-family: serif;letter-spacing:2px;}
+</style>
+</head>
+<body>
+<div class="example" id="js_example">
+    <h2 class="title">JavaScript 全选</h2>
+    <div class="content">
+        <dl>
+            <dt><input type="checkbox" class="js-selectAll" id="jsAll" /><label for="jsAll" class="js-selectStateText">全选</label></dt>
+            <dd>
+                <label><input type="checkbox" value="0" class="js-selectItem" checked/>星期日</label>
+                <label><input type="checkbox" value="1" class="js-selectItem"/>星期一</label>
+                <label><input type="checkbox" value="2" class="js-selectItem"/>星期二</label>
+                <label><input type="checkbox" value="3" class="js-selectItem"/>星期三</label>
+                <label><input type="checkbox" value="4" class="js-selectItem"/>星期四</label>
+                <label><input type="checkbox" value="5" class="js-selectItem"/>星期五</label>
+                <label><input type="checkbox" value="6" class="js-selectItem"/>星期六</label>
+            </dd>
+        </dl>
+        <div class="selected">
+            <span>已选择：</span>
+            <p></p>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<div class="example" id="jq_example">
+    <h2 class="title">jQueyr 全选</h2>
+    <div class="content">
+        <dl>
+            <dt><input type="checkbox" class="js-selectAll" id="jqAll" /><label for="jqAll" class="js-selectStateText">全选</label></dt>
+            <dd>
+                <label><input type="checkbox" value="0" class="js-selectItem"/>星期日</label>
+                <label><input type="checkbox" value="1" class="js-selectItem"/>星期一</label>
+                <label><input type="checkbox" value="2" class="js-selectItem"/>星期二</label>
+                <label><input type="checkbox" value="3" class="js-selectItem"/>星期三</label>
+                <label><input type="checkbox" value="4" class="js-selectItem"/>星期四</label>
+                <label><input type="checkbox" value="5" class="js-selectItem"/>星期五</label>
+                <label><input type="checkbox" name="1" value="6" class="js-selectItem" checked />星期六</label>
+            </dd>
+        </dl>
+        <div class="selected">
+            <span>已选择：</span>
+            <p></p>
+        </div>
+    </div>
+</div>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+// JavaScript demo code
+;(function () {
+    var parent = document.querySelector('#js_example'),
+        selectAll = parent.querySelector('.js-selectAll'),
+        selectList = parent.querySelectorAll('.js-selectItem');
+
+    function isCheck() {
+        var isChecked = true,
+            stateText = '';
+
+        for (var i = 0; i < selectList.length; i++) {
+            if (!selectList[i].checked) {
+                isChecked = false;
+                break;
+            }
+        }
+
+        stateText = isChecked ? '全不选' : '全选';
+        
+        selectAll.checked = isChecked;
+        parent.querySelector('.js-selectStateText').innerHTML = stateText;
+
+        checked();
+    }
+
+    /*已选择*/
+    function checked() {
+        var checkedArr = [];
+        for (var i = 0; i < selectList.length; i++) {
+            selectList[i].checked && checkedArr.push(selectList[i].value);
+        }
+        parent.querySelector('.selected p').innerHTML = checkedArr.length && JSON.stringify(checkedArr) || '';
+    }
+
+    /*点击复选框*/
+    for (var i = 0; i < selectList.length; i++) {
+        selectList[i].onclick = isCheck;
+    }
+
+    /*全选、全不选*/
+    selectAll.onclick = function () {
+        for (var i = 0; i < selectList.length; i++) {
+            selectList[i].checked = this.checked;
+        }
+        isCheck();
+    }
+
+    isCheck();
+}());
+
+</script>
+
+<script>
+// jQueyr demo code
+$(function () {
+    var parent = $('#jq_example'),
+        selectAll = parent.find('.js-selectAll'),
+        selectItem = parent.find('.js-selectItem');
+    
+    /*check*/
+    function isCheck() {
+        var isChecked = selectItem.length === parent.find('.js-selectItem:checked').length,
+            stateText = isChecked ? '全不选' : '全选';
+        
+        selectAll.prop('checked', isChecked);
+
+        parent.find('.js-selectStateText').html(stateText);
+        
+        checked();
+    }
+    /*已选择*/
+    function checked() {
+        var checkedArr = [],
+            checkedList = parent.find('.js-selectItem:checked');
+
+        $.each(checkedList, function (i, item) {
+            checkedArr.push(item.value);
+        });
+        parent.find('.selected p').html(checkedArr.length && JSON.stringify(checkedArr) || '');
+    }
+
+    /*点击复选框*/
+    selectItem.on('click', function () {
+        isCheck();
+    });
+    /*全选、全不选*/
+    selectAll.on('click', function () {
+        selectItem.prop('checked', this.checked);
+        isCheck();
+    });
+
+    isCheck();
+});
+
+</script>
+</body>
+</html>

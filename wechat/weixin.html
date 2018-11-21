@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>微信弹框测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      input {
+        -webkit-appearance: none;
+      }
+      .form {
+        margin: 100px 20px;
+      }
+      .form p {
+        line-height: 30px;
+        margin-bottom: 14px;
+      }
+      .form-text {
+        display: block;
+        width: 100%;
+        height: 40px;
+        box-sizing: border-box;
+        background-color: #fff;
+        border: 1px solid #dadada;
+      }
+      .form-button {
+        display: block;
+        width: 100%;
+        height: 40px;
+        box-sizing: border-box;
+        color: #fff;
+        background-color: #57aef1;
+        border: none;
+      }
+      .message-box {
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 300px;
+        padding: 100px 40px;
+        background-color: #f00;
+        box-sizing: border-box;
+        transform: translate(-50%, -50%);
+      }
+      dt {
+        padding-top: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h3>问题</h3>
+      <p>
+        微信IOS 6.7.4 键盘弹起页面上滑，导致弹框(position:fixed; absolute
+        不会有问题)后按钮响应区域错位
+      </p>
+      <dl>
+        <dt>手机</dt>
+        <dd>iPhone XS</dd>
+        <dt>平台</dt>
+        <dd>IOS</dd>
+        <dt>微信版本</dt>
+        <dd>6.7.4</dd>
+        <dt>UA</dt>
+        <dd>
+          Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X)
+          AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B92
+          MicroMessenger/6.7.4(0x1607042c) NetType/WIFI Language/zh_CN
+        </dd>
+      </dl>
+
+      <br />
+      <h3>操作步骤</h3>
+      <ul>
+        <li>1、光标定位，使键盘弹出</li>
+        <li>2、点击“弹框”按钮</li>
+        <li>3、点击“点我”按钮</li>
+      </ul>
+    </div>
+    <div class="form">
+      <input type="text" class="form-text" value="弹起键盘" />
+      <p>键盘弹起，页面会顶上去</p>
+      <input type="button" class="form-button" value="弹框" />
+    </div>
+    <div class="message-box">
+      <input type="button" value="点我" class="form-button" />
+    </div>
+    <script>
+      let btn1 = document.querySelectorAll('.form-button')[0]
+      let btn2 = document.querySelectorAll('.form-button')[1]
+      let messageBox = document.querySelector('.message-box')
+
+      btn1.onclick = () => {
+        messageBox.style.display = 'block'
+      }
+
+      btn2.onclick = () => {
+        messageBox.style.display = 'none'
+      }
+
+      document.write(navigator.userAgent)
+      console.log(navigator.userAgent)
+      // alert(navigator.userAgent)
+    </script>
+  </body>
+</html>

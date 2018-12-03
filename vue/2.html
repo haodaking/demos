@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>该页面引入了vue.js</h1>
+      <div class="box"></div>
+      <a href="https://www.baidu.com">跳转</a>
+    </div>
+    <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+    <script>
+      setTimeout(() => {
+        document.querySelector('.box').innerHTML = `<p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>
+              <p>13123<br /></p>`
+      }, 1000)
+      window.onpageshow = function(event) {
+        console.log(event)
+        alert(event.persisted)
+      }
+    </script>
+  </body>
+</html>

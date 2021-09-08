@@ -1,5 +1,7 @@
 # demos
 
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/haodaking/demos)
+
 * JavaScript
     * [选项卡](https://haodaking.github.io/demos/tab/)
     * [复选框全选/全不选](https://haodaking.github.io/demos/checkbox/)
